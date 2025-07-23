@@ -1,42 +1,10 @@
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Kanit', sans-serif;
 }
-.  .typing-text {
-    font-size: 2rem;
-    white-space: nowrap;
-    border-right: 3px solid #03dac6;
-    overflow: hidden;
-    width: 0;
-    animation: typing 3s steps(var(--chars)) forwards, blink 0.75s step-end infinite;
-  }
 
-  /* Delay for each line */
-  .typing-text:nth-child(0.1) {
-    --chars: 2;
-    animation-delay: 0s, 0s;
-  }
-  .typing-text:nth-child(2) {
-    --chars: 1;
-    animation-delay: 4s, 4s;
-  }
-  .typing-text:nth-child(3) {
-    --chars: 0.1;
-    animation-delay: 8s, 8s;
-  }
-
-  @keyframes typing {
-    from { width: 0; }
-    to { width: calc(var(--chars) * 1ch); }
-  }
-
-  @keyframes blink {
-    50% { border-color: transparent; }
-    100% { border-color: #03dac6; }
-  }
 
 body {
   background-color: #121212;
@@ -46,33 +14,38 @@ body {
 }
 
 /* ส่วน Profile */
-.profile {
+.profile
+{
   text-align: center;
   padding: 60px 20px;
   animation: fadeInDown 1s ease-out;
 }
 
-.profile-img {
+.profile-img
+{
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 3px solid #d3ff0c;
+  border: 3px solid #03dac6;
   margin-bottom: 1rem;
   animation: pop 0.8s ease-in;
 }
 
-.profile h1 {
+.profile h1 
+{
   font-size: 2.5rem;
-  color: #e4ac12;
+  color: #D59D04;
 }
 
-.role {
+.role
+{
   font-size: 1.1rem;
   color: #aaa;
 }
 
 /* ส่วนแนะนำตัว */
-.about {
+.about
+{
   padding: 60px 20px;
   max-width: 700px;
   margin: auto;
@@ -80,31 +53,36 @@ body {
   animation: fadeIn 1.2s ease-in;
 }
 
-.about h2 {
-  color: #e6a020;
+.about h2
+{
+  color: #D57304;
   margin-bottom: 1rem;
 }
 
-.about p {
+.about p
+{
   color: #cccccc;
   font-size: 1rem;
 }
 
 /* ส่วน Skills */
-.skills {
+.skills
+{
   padding: 60px 20px;
   max-width: 800px;
   margin: auto;
   text-align: center;
 }
 
-.skills h2 {
-  color: #a0d35e;
+.skills h2
+{
+  color: #F9F4B0;
   margin-bottom: 1rem;
   animation: fadeIn 1.3s ease-in;
 }
 
-.skill-list {
+.skill-list
+{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -114,8 +92,8 @@ body {
 
 .skill-card {
   background: #1e1e1e;
-  border: 2px solid #e7f56b;
-  color: #f4f74e;
+  border: 2px solid #F9F4B0;
+  color: #F9F4B0;
   padding: 12px 20px;
   border-radius: 8px;
   font-weight: bold;
@@ -181,30 +159,40 @@ body {
     font-size: 0.95rem;
   }
 }
-.project {
+
+.project h2 {
   padding: 60px 20px;
   max-width: 800px;
   margin: auto;
   text-align: center;
+  color: #62D554;
 }
-.project h2 {
-  color: #a0d35e;
-  margin-bottom: 1rem;
-  animation: fadeIn 1.3s ease-in;
-}
-.project .ject-1 {
+.pro-card-1 {
   background: #1e1e1e;
-  border: 2px solid #e9982f;
-  color: #f1862f;
+  border: 2px solid #F9F4B0;
+  color: #F9F4B0;
   padding: 12px 20px;
   border-radius: 8px;
   font-weight: bold;
-  transition: transform 0.3s ease;
-  animation: floatIn 0.6s ease-in forwards;
-  opacity: 0;
+  
+
+  display: flex;
+flex-wrap: wrap;
+justify-content: center;
 }
+
 .project a {
-  text-decoration: none;
-  color: inherit;
-  padding: 23px;
+ padding: 60px 20px;
+ max-width: 800px;
+ margin: auto;
+ text-align: center;
+ color: #BF731C;
+ margin-bottom: 1rem;
+}
+.certificate {
+    padding: 60px 20px;
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+    color: #1CBF5F;
 }

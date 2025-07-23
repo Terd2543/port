@@ -6,15 +6,32 @@
   <title>Portfolio</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+<style>
+  .typing-container 
+  {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #DA3903;
+  font-family: 'Kanit', sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid #EC2D2D;
+  width: fit-content;
+  margin: 50px auto;
+}
+
+</style>
 </head>
-<body>
+<body mpa-version="9.0.21" mpa-extension-id="ibefaeehajgcpooopoegkifhgecigeeg">
   <section class="profile">
-    <img src="https://img5.pic.in.th/file/secure-sv1/IMG_6736bf23f5d5fc5d5c25.jpeg" alt="Profile Picture" class="profile-img" />
+    <img src="https://img5.pic.in.th/file/secure-sv1/IMG_6736bf23f5d5fc5d5c25.jpeg"  class="profile-img" />
     <h1>Terd Developer</h1>
     <p class="role">FullStack Developer | UI Designer</p>
-<div class="typing-text">Hello! I'am Terd</div>
-<div class="typing-text">FullStack Developer</div>
-<div class="typing-text">I like coding</div>
+<div class="typing-container">
+  <div id="typing-text"></div>
+</div>
+
   </section>
 
   <section class="about" id="about">
@@ -36,13 +53,56 @@
       <div class="skill-card data-aos="flip-left"">Node.js</div>
     </div>
   </section>
-  <section class="project">
-    <h2>My project</h2>
-    <div class="ject-1">HTML+CSS</div>
-    <a href="https://terd2543.github.io/symic/"><img src="img1.png" alt=""></a>
+   <section class="project">
+     <h2>
+       My project
+     </h2>
+     <div class="pro-card-1">HTML+CSS</div>
+     <a href="https://terd2543.github.io/symic/">Web code source</a>
+     
+   </section>
+  <section class="certificate">
+    <h2>
+      My certificate
+    </h2>
   </section>
+  <script>
+  const messages = [
+    "I am Nattawat",
+    "Junior Fullstack Dev",
+    "Junior UI/UX Designer"
+  ];
+
+  const typingElement = document.getElementById("typing-text");
+  let messageIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+
+  function type() {
+    const currentMessage = messages[messageIndex];
+    if (isDeleting) {
+      typingElement.textContent = currentMessage.substring(0, charIndex--);
+    } else {
+      typingElement.textContent = currentMessage.substring(0, charIndex++);
+    }
+
+    if (!isDeleting && charIndex === currentMessage.length) {
+      setTimeout(() => isDeleting = true, 1500);
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      messageIndex = (messageIndex + 1) % messages.length;
+    }
+
+    const speed = isDeleting ? 50 : 100;
+    setTimeout(type, speed);
+  }
+
+  type();
+</script>
+
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
+  
   AOS.init();
 </script>
 </body>
