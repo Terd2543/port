@@ -73,60 +73,93 @@
     "Junior Fullstack Dev",
     "Junior UI/UX Designer"
   ];
-</script>
-<script>
-    // *** สำคัญ: แทนที่ด้วย Public URL ของ Node.js Server บน Render.com ของคุณ ***
-    // URL นี้คือ Endpoint ที่ Server ของคุณจะรับข้อมูลผู้เข้าชม (จาก server.js: app.post('/notify-visitor'))
+</script><script>
     const RENDER_NOTIFY_URL = 'https://backed-vvup.onrender.com/notify-visitor'; // แก้ไขให้เป็น URL Render ของคุณจริงๆ
+
+    // --- ฟังก์ชันใหม่: วิเคราะห์ User Agent เพื่อให้อุปกรณ์สั้นลง ---
+    function getDeviceInfo(userAgentString) {
+        let device = 'Unknown Device';
+        let os = 'Unknown OS';
+        let browser = 'Unknown Browser';
+
+        // ตรวจสอบ OS
+        if (/windows/i.test(userAgentString)) {
+            os = 'Windows';
+        } else if (/macintosh|mac os x/i.test(userAgentString)) {
+            os = 'macOS';
+        } else if (/android/i.test(userAgentString)) {
+            os = 'Android';
+        } else if (/iphone|ipad|ipod/i.test(userAgentString)) {
+            os = 'iOS';
+        } else if (/linux/i.test(userAgentString)) {
+            os = 'Linux';
+        }
+
+        // ตรวจสอบประเภทอุปกรณ์
+        if (/mobi|android|iphone|ipad|ipod|blackberry|windows phone/i.test(userAgentString)) {
+            device = 'Mobile/Tablet';
+        } else {
+            device = 'Desktop';
+        }
+
+        // ตรวจสอบ Browser (อาจจะละเอียดเกินไป แต่ก็สามารถใส่ได้)
+        if (/chrome/i.test(userAgentString) && !/edge/i.test(userAgentString)) {
+            browser = 'Chrome';
+        } else if (/firefox/i.test(userAgentString)) {
+            browser = 'Firefox';
+        } else if (/safari/i.test(userAgentString) && !/chrome/i.test(userAgentString)) {
+            browser = 'Safari';
+        } else if (/edge/i.test(userAgentString)) {
+            browser = 'Edge';
+        } else if (/msie|trident/i.test(userAgentString)) {
+            browser = 'IE';
+        }
+
+        // คืนค่าเป็น String ที่สั้นและกระชับ
+        return `${device} (${os}, ${browser})`;
+    }
+    // --- สิ้นสุดฟังก์ชันวิเคราะห์ User Agent ---
 
     async function sendVisitorInfo() {
         try {
-            // 1. ดึง IP Address ของผู้เข้าชม (จากฝั่ง Client)
-            // เราใช้บริการ ipify.org เพื่อดึง IP Public ของผู้ใช้
             const ipResponse = await fetch('https://api.ipify.org?format=json');
             const ipData = await ipResponse.json();
             const clientIp = ipData.ip;
 
-            // 2. ดึง User Agent String (ข้อมูลเบราว์เซอร์, OS, อุปกรณ์)
-            const userAgent = navigator.userAgent;
+            // *** ใช้ฟังก์ชัน getDeviceInfo เพื่อวิเคราะห์ User Agent ***
+            const fullUserAgent = navigator.userAgent;
+            const shortDeviceInfo = getDeviceInfo(fullUserAgent);
+            // ***
 
-            // 3. ดึงเวลาปัจจุบันในโซนเวลาประเทศไทย
             const accessTime = new Date().toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' });
 
-            // 4. สร้างข้อมูลที่จะส่งเป็น JSON
             const dataToSend = {
                 ip: clientIp,
-                userAgent: userAgent,
+                userAgent: shortDeviceInfo, // ส่งข้อมูลอุปกรณ์ที่สั้นลง
                 time: accessTime
             };
 
-            // 5. ส่งข้อมูลไปยัง Node.js Server บน Render.com (ใช้ Fetch API)
             const response = await fetch(RENDER_NOTIFY_URL, {
-                method: 'POST', // ส่งข้อมูลแบบ POST
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json' // บอก Server ว่าข้อมูลที่ส่งเป็น JSON
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(dataToSend) // แปลง JavaScript Object เป็น JSON String
+                body: JSON.stringify(dataToSend)
             });
 
-            // 6. ตรวจสอบสถานะการตอบกลับจาก Server
-            if (response.ok) { // ถ้าสถานะเป็น 2xx (สำเร็จ)
+            if (response.ok) {
                 console.log('ข้อมูลผู้เข้าชมถูกส่งไปยัง LINE Bot Server สำเร็จ!');
-                // สามารถแสดงข้อความ success บน console ของ browser ได้
-            } else { // ถ้าสถานะเป็น error (4xx หรือ 5xx)
+            } else {
                 const errorData = await response.json();
                 console.error('เกิดข้อผิดพลาดในการส่งข้อมูลผู้เข้าชม:', errorData.error);
             }
         } catch (error) {
-            // ดักจับ error ที่เกิดจาก Network หรือการ fetch
             console.error('เกิดข้อผิดพลาดในการเชื่อมต่อหรือส่งข้อมูล:', error);
         }
     }
 
-    // สั่งให้ฟังก์ชัน sendVisitorInfo ทำงานเมื่อหน้าเว็บโหลดเสร็จสมบูรณ์
     window.addEventListener('load', sendVisitorInfo);
-</script>
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
   
   AOS.init();
