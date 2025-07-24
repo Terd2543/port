@@ -73,62 +73,59 @@
     "Junior Fullstack Dev",
     "Junior UI/UX Designer"
   ];
+</script>
 <script>
     // *** สำคัญ: แทนที่ด้วย Public URL ของ Node.js Server บน Render.com ของคุณ ***
-    // ตรวจสอบให้แน่ใจว่าเป็น URL ของ API endpoint ที่คุณตั้งค่าไว้ใน server.js
-    // ในกรณีนี้คือ https://backed-vvup.onrender.com/notify-visitor
-    const RENDER_SERVER_URL = 'https://backed-vvup.onrender.com/notify-visitor';
+    // URL นี้คือ Endpoint ที่ Server ของคุณจะรับข้อมูลผู้เข้าชม (จาก server.js: app.post('/notify-visitor'))
+    const RENDER_NOTIFY_URL = 'https://backed-vvup.onrender.com/notify-visitor'; // แก้ไขให้เป็น URL Render ของคุณจริงๆ
 
     async function sendVisitorInfo() {
         try {
-            // ดึง IP Address ของ Client จากบริการภายนอก (ipify.org)
+            // 1. ดึง IP Address ของผู้เข้าชม (จากฝั่ง Client)
+            // เราใช้บริการ ipify.org เพื่อดึง IP Public ของผู้ใช้
             const ipResponse = await fetch('https://api.ipify.org?format=json');
             const ipData = await ipResponse.json();
             const clientIp = ipData.ip;
 
-            // ดึง User Agent (ข้อมูลเกี่ยวกับเบราว์เซอร์, OS, อุปกรณ์)
+            // 2. ดึง User Agent String (ข้อมูลเบราว์เซอร์, OS, อุปกรณ์)
             const userAgent = navigator.userAgent;
 
-            // ดึงเวลาปัจจุบันในโซนเวลาประเทศไทย
+            // 3. ดึงเวลาปัจจุบันในโซนเวลาประเทศไทย
             const accessTime = new Date().toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' });
 
-            // สร้าง Object ที่จะส่งไปให้ Server
-            const data = {
+            // 4. สร้างข้อมูลที่จะส่งเป็น JSON
+            const dataToSend = {
                 ip: clientIp,
                 userAgent: userAgent,
                 time: accessTime
             };
 
-            // ส่งข้อมูลไปยัง Node.js Server บน Render.com โดยใช้ Fetch API
-            const response = await fetch(RENDER_SERVER_URL, {
-                method: 'POST', // ใช้เมธอด POST
+            // 5. ส่งข้อมูลไปยัง Node.js Server บน Render.com (ใช้ Fetch API)
+            const response = await fetch(RENDER_NOTIFY_URL, {
+                method: 'POST', // ส่งข้อมูลแบบ POST
                 headers: {
-                    'Content-Type': 'application/json' // ระบุว่าข้อมูลที่ส่งเป็น JSON
+                    'Content-Type': 'application/json' // บอก Server ว่าข้อมูลที่ส่งเป็น JSON
                 },
-                body: JSON.stringify(data) // แปลง Object ให้เป็น JSON string ก่อนส่ง
+                body: JSON.stringify(dataToSend) // แปลง JavaScript Object เป็น JSON String
             });
 
-            // ตรวจสอบสถานะการตอบกลับจาก Server
-            if (response.ok) {
-                // ถ้า Server ตอบกลับสถานะ 2xx (เช่น 200 OK)
+            // 6. ตรวจสอบสถานะการตอบกลับจาก Server
+            if (response.ok) { // ถ้าสถานะเป็น 2xx (สำเร็จ)
                 console.log('ข้อมูลผู้เข้าชมถูกส่งไปยัง LINE Bot Server สำเร็จ!');
-            } else {
-                // ถ้า Server ตอบกลับสถานะผิดพลาด (เช่น 4xx, 5xx)
+                // สามารถแสดงข้อความ success บน console ของ browser ได้
+            } else { // ถ้าสถานะเป็น error (4xx หรือ 5xx)
                 const errorData = await response.json();
                 console.error('เกิดข้อผิดพลาดในการส่งข้อมูลผู้เข้าชม:', errorData.error);
             }
         } catch (error) {
-            // ดักจับข้อผิดพลาดที่อาจเกิดขึ้นระหว่างการ fetch (เช่น Network error)
-            console.error('เกิดข้อผิดพลาดในการส่งข้อมูลผู้เข้าชม:', error);
+            // ดักจับ error ที่เกิดจาก Network หรือการ fetch
+            console.error('เกิดข้อผิดพลาดในการเชื่อมต่อหรือส่งข้อมูล:', error);
         }
     }
 
     // สั่งให้ฟังก์ชัน sendVisitorInfo ทำงานเมื่อหน้าเว็บโหลดเสร็จสมบูรณ์
     window.addEventListener('load', sendVisitorInfo);
 </script>
-  
-</script>
-
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
   
