@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Kanit', sans-serif;
+}
+
+
+body {
+  background-color: #1b1b1b;
+  color: #e6b5b5;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+}croll-behavior: smooth;
+
+.certificate h3 {
+  padding: 45px 24px;
+  max-width: 550px;
+  margin: auto;
+  text-align: center;
+  animation: fadeIn 1.2s ease-in;
+}

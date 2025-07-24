@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -196,3 +197,20 @@ justify-content: center;
     text-align: center;
     color: #1CBF5F;
 }
+.cert {
+  background-color: #04AA6D; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  animation: floatIn 0.6s ease-in forwards;
+  opacity: 0;
+}
+
+
