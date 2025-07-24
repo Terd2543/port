@@ -99,6 +99,31 @@
   }
 
   type();
+  fetch('https://ipapi.co/json/')
+  .then(res => res.json())
+  .then(data => {
+    const log = {
+      ip: data.ip,
+      device: navigator.userAgent,
+      time: new Date().toLocaleString(),
+      browser: getBrowserName()
+    };
+    
+    fetch('https://backed-vvup.onrender.com/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(log)
+    });
+  });
+
+function getBrowserName() {
+  const ua = navigator.userAgent;
+  if (ua.includes("Chrome")) return "Chrome";
+  if (ua.includes("Firefox")) return "Firefox";
+  if (ua.includes("Safari") && !ua.includes("Chrome")) return "Safari";
+  if (ua.includes("Edge")) return "Edge";
+  return "Unknown";
+}
 </script>
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
