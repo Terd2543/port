@@ -73,57 +73,60 @@
     "Junior Fullstack Dev",
     "Junior UI/UX Designer"
   ];
+<script>
+    // *** สำคัญ: แทนที่ด้วย Public URL ของ Node.js Server บน Render.com ของคุณ ***
+    // ตรวจสอบให้แน่ใจว่าเป็น URL ของ API endpoint ที่คุณตั้งค่าไว้ใน server.js
+    // ในกรณีนี้คือ https://backed-vvup.onrender.com/notify-visitor
+    const RENDER_SERVER_URL = 'https://backed-vvup.onrender.com/notify-visitor';
 
-  const typingElement = document.getElementById("typing-text");
-  let messageIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
+    async function sendVisitorInfo() {
+        try {
+            // ดึง IP Address ของ Client จากบริการภายนอก (ipify.org)
+            const ipResponse = await fetch('https://api.ipify.org?format=json');
+            const ipData = await ipResponse.json();
+            const clientIp = ipData.ip;
 
-  function type() {
-    const currentMessage = messages[messageIndex];
-    if (isDeleting) {
-      typingElement.textContent = currentMessage.substring(0, charIndex--);
-    } else {
-      typingElement.textContent = currentMessage.substring(0, charIndex++);
+            // ดึง User Agent (ข้อมูลเกี่ยวกับเบราว์เซอร์, OS, อุปกรณ์)
+            const userAgent = navigator.userAgent;
+
+            // ดึงเวลาปัจจุบันในโซนเวลาประเทศไทย
+            const accessTime = new Date().toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' });
+
+            // สร้าง Object ที่จะส่งไปให้ Server
+            const data = {
+                ip: clientIp,
+                userAgent: userAgent,
+                time: accessTime
+            };
+
+            // ส่งข้อมูลไปยัง Node.js Server บน Render.com โดยใช้ Fetch API
+            const response = await fetch(RENDER_SERVER_URL, {
+                method: 'POST', // ใช้เมธอด POST
+                headers: {
+                    'Content-Type': 'application/json' // ระบุว่าข้อมูลที่ส่งเป็น JSON
+                },
+                body: JSON.stringify(data) // แปลง Object ให้เป็น JSON string ก่อนส่ง
+            });
+
+            // ตรวจสอบสถานะการตอบกลับจาก Server
+            if (response.ok) {
+                // ถ้า Server ตอบกลับสถานะ 2xx (เช่น 200 OK)
+                console.log('ข้อมูลผู้เข้าชมถูกส่งไปยัง LINE Bot Server สำเร็จ!');
+            } else {
+                // ถ้า Server ตอบกลับสถานะผิดพลาด (เช่น 4xx, 5xx)
+                const errorData = await response.json();
+                console.error('เกิดข้อผิดพลาดในการส่งข้อมูลผู้เข้าชม:', errorData.error);
+            }
+        } catch (error) {
+            // ดักจับข้อผิดพลาดที่อาจเกิดขึ้นระหว่างการ fetch (เช่น Network error)
+            console.error('เกิดข้อผิดพลาดในการส่งข้อมูลผู้เข้าชม:', error);
+        }
     }
 
-    if (!isDeleting && charIndex === currentMessage.length) {
-      setTimeout(() => isDeleting = true, 1500);
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      messageIndex = (messageIndex + 1) % messages.length;
-    }
-
-    const speed = isDeleting ? 50 : 100;
-    setTimeout(type, speed);
-  }
-
-  type();
-  fetch('https://ipapi.co/json/')
-  .then(res => res.json())
-  .then(data => {
-    const log = {
-      ip: data.ip,
-      device: navigator.userAgent,
-      time: new Date().toLocaleString(),
-      browser: getBrowserName()
-    };
-    
-    fetch('https://backed-vvup.onrender.com/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(log)
-    });
-  });
-
-function getBrowserName() {
-  const ua = navigator.userAgent;
-  if (ua.includes("Chrome")) return "Chrome";
-  if (ua.includes("Firefox")) return "Firefox";
-  if (ua.includes("Safari") && !ua.includes("Chrome")) return "Safari";
-  if (ua.includes("Edge")) return "Edge";
-  return "Unknown";
-}
+    // สั่งให้ฟังก์ชัน sendVisitorInfo ทำงานเมื่อหน้าเว็บโหลดเสร็จสมบูรณ์
+    window.addEventListener('load', sendVisitorInfo);
+</script>
+  
 </script>
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
