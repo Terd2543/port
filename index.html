@@ -68,11 +68,36 @@
     <button class="cert"><p><a href="cert.html">Preview</a></p></button>
   </section>
 <script>
-  const messages = [
+   const messages = [
     "I am Nattawat",
     "Junior Fullstack Dev",
     "Junior UI/UX Designer"
   ];
+
+  const typingElement = document.getElementById("typing-text");
+  let messageIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+
+  function type() {
+    const currentMessage = messages[messageIndex];
+    if (isDeleting) {
+      typingElement.textContent = currentMessage.substring(0, charIndex--);
+    } else {
+      typingElement.textContent = currentMessage.substring(0, charIndex++);
+    }
+
+    if (!isDeleting && charIndex === currentMessage.length) {
+      setTimeout(() => isDeleting = true, 1500);
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      messageIndex = (messageIndex + 1) % messages.length;
+    }
+
+    const speed = isDeleting ? 50 : 100;
+    setTimeout(type, speed);
+  }
+  type();
 </script>
   <script>
     const RENDER_NOTIFY_URL = 'https://backed-vvup.onrender.com/notify-visitor'; // แก้ไขให้เป็น URL Render ของคุณจริงๆ
