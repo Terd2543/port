@@ -1,38 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="cert.css">
+    <title>คลังเกียรติบัตรส่วนตัว</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* โค้ด CSS ทั้งหมดจะถูกวางไว้ในส่วนนี้ */
+        /* การตั้งค่าพื้นฐาน */
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .main-header {
+            background: linear-gradient(135deg, #4a90e2, #50c9c3);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-header h1 {
+            font-size: 3rem;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .certificate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .certificate-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            overflow: hidden;
+            cursor: pointer;
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fade-in 0.6s forwards;
+        }
+
+        .certificate-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .certificate-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .certificate-card h3 {
+            font-size: 1.5rem;
+            color: #4a90e2;
+            margin: 0;
+        }
+
+        .certificate-card p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .main-footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+
+        /* แอนิเมชันสำหรับเกียรติบัตร */
+        @keyframes fade-in {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-    <section class="certificate">
-        <h3>และนี้คือ เกียรติบัตรของกระผมทั้งหมด</h3>
-    </section>
-<table style="width:100%">
-    <tr>
-        <th>ลำดับ</th>
-        <th>ชื่อ</th>
-        <th>เวลา</th>
-        <th>รูปภาพ</th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>Certificate A</td>
-        <td>2023-01-15</td>
-        <td><img src="img1.png" alt="Certificate A" width="100"></td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Certificate B</td>
-        <td>2023-05-22</td>
-        <td><img src="img1.png"  width="100"></td>
-    </tr>
-</table>
+    <header class="main-header">
+        <h1>คลังเกียรติบัตรของผม</h1>
+        <p>รวบรวมความสำเร็จและความภาคภูมิใจ</p>
+    </header>
+
+    <main class="certificate-grid">
+        </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 All Rights Reserved.</p>
+    </footer>
     
-    
- 
-</table>
+    <script>
+        // โค้ด JavaScript ทั้งหมดจะถูกวางไว้ในส่วนนี้
+        document.addEventListener('DOMContentLoaded', () => {
+            const certificates = [
+                {
+                    title: 'ใบรับรองหลักสูตรการเขียนโปรแกรม Python',
+                    description: 'ได้รับจาก Codecademy เมื่อเดือนมิถุนายน 2568',
+                    imageUrl: 'https://via.placeholder.com/600x400/4a90e2/FFFFFF?text=Python+Certificate'
+                },
+                {
+                    title: 'รางวัลชนะเลิศการแข่งขันเขียนโค้ด',
+                    description: 'ได้รับจากมหาวิทยาลัย ABC เมื่อเดือนพฤษภาคม 2568',
+                    imageUrl: 'https://via.placeholder.com/600x400/50c9c3/FFFFFF?text=Coding+Competition'
+                },
+                {
+                    title: 'ใบประกาศนียบัตรอบรม UI/UX Design',
+                    description: 'ได้รับจาก Coursera เมื่อเดือนเมษายน 2568',
+                    imageUrl: 'https://via.placeholder.com/600x400/f5a623/FFFFFF?text=UI/UX+Design'
+                }
+            ];
+        
+            const certificateGrid = document.querySelector('.certificate-grid');
+        
+            certificates.forEach((cert, index) => {
+                const certCard = document.createElement('div');
+                certCard.classList.add('certificate-card');
+                certCard.style.animationDelay = `${index * 0.1}s`;
+        
+                certCard.innerHTML = `
+                    <img src="${cert.imageUrl}" alt="${cert.title}">
+                    <h3>${cert.title}</h3>
+                    <p>${cert.description}</p>
+                `;
+        
+                certCard.addEventListener('click', () => {
+                    alert(`คุณกำลังจะดูเกียรติบัตร: ${cert.title}`);
+                });
+        
+                certificateGrid.appendChild(certCard);
+            });
+        });
+    </script>
 </body>
 </html>
