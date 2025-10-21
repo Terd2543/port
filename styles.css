@@ -1,216 +1,116 @@
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Kanit', sans-serif;
-}
-
-
+/* Global style */
 body {
-  background-color: #121212;
-  color: #f0f0f0;
+  margin: 0;
+  font-family: 'Kanit', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  text-align: center;
   line-height: 1.6;
-  scroll-behavior: smooth;
 }
 
-/* ส่วน Profile */
-.profile
-{
-  text-align: center;
+/* Profile Section */
+.profile {
   padding: 60px 20px;
-  animation: fadeInDown 1s ease-out;
 }
-
-.profile-img
-{
-  width: 120px;
-  height: 120px;
+.profile-img {
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  border: 3px solid #03dac6;
-  margin-bottom: 1rem;
-  animation: pop 0.8s ease-in;
+  border: 4px solid #DA3903;
+  box-shadow: 0 0 20px rgba(218, 57, 3, 0.6);
+  transition: transform 0.3s ease;
 }
-
-.profile h1 
-{
+.profile-img:hover {
+  transform: scale(1.1) rotate(3deg);
+}
+.profile h1 {
+  margin: 20px 0 10px;
   font-size: 2.5rem;
-  color: #D59D04;
+  color: #DA3903;
+}
+.role {
+  font-size: 1.2rem;
+  opacity: 0.8;
 }
 
-.role
-{
-  font-size: 1.1rem;
-  color: #aaa;
+/* Section Titles */
+section h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+section h2::after {
+  content: "";
+  display: block;
+  width: 50%;
+  height: 3px;
+  background: #DA3903;
+  margin: 10px auto 0;
+  border-radius: 2px;
 }
 
-/* ส่วนแนะนำตัว */
-.about
-{
-  padding: 60px 20px;
-  max-width: 700px;
-  margin: auto;
-  text-align: center;
-  animation: fadeIn 1.2s ease-in;
+/* About */
+.about {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
 }
 
-.about h2
-{
-  color: #D57304;
-  margin-bottom: 1rem;
-}
-
-.about p
-{
-  color: #cccccc;
-  font-size: 1rem;
-}
-
-/* ส่วน Skills */
-.skills
-{
-  padding: 60px 20px;
+/* Skills */
+.skill-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
   max-width: 800px;
   margin: auto;
-  text-align: center;
+  padding: 20px;
 }
-
-.skills h2
-{
-  color: #F9F4B0;
-  margin-bottom: 1rem;
-  animation: fadeIn 1.3s ease-in;
-}
-
-.skill-list
-{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-
 .skill-card {
-  background: #1e1e1e;
-  border: 2px solid #F9F4B0;
-  color: #F9F4B0;
+  padding: 15px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+.skill-card:hover {
+  background: #DA3903;
+  color: #fff;
+  transform: translateY(-5px) scale(1.05);
+}
+
+/* Projects */
+.project a {
+  display: inline-block;
+  margin: 10px;
   padding: 12px 20px;
   border-radius: 8px;
-  font-weight: bold;
-  transition: transform 0.3s ease;
-  animation: floatIn 0.6s ease-in forwards;
-  opacity: 0;
+  text-decoration: none;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  transition: all 0.3s ease;
+}
+.project a:hover {
+  background: #DA3903;
+  box-shadow: 0 0 15px rgba(218,57,3,0.6);
 }
 
-.skill-card:hover {
+/* Certificate Button */
+.cert {
+  margin: 20px;
+  padding: 15px 25px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #DA3903, #EC2D2D);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+.cert:hover {
   transform: scale(1.05);
 }
-
-/* Keyframes Animation */
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pop {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes floatIn {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  .skill-card {
-    width: 100px;
-  }
-
-  .profile h1 {
-    font-size: 2rem;
-  }
-
-  .about p {
-    font-size: 0.95rem;
-  }
-}
-
-.project h2 {
-  padding: 60px 20px;
-  max-width: 800px;
-  margin: auto;
-  text-align: center;
-  color: #62D554;
-}
-.pro-card-1 {
-  background: #1e1e1e;
-  border: 2px solid #F9F4B0;
-  color: #F9F4B0;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: bold;
-  
-
-  display: flex;
-flex-wrap: wrap;
-justify-content: center;
-}
-
-.project a {
- padding: 60px 20px;
- max-width: 800px;
- margin: auto;
- text-align: center;
- color: #BF731C;
- margin-bottom: 1rem;
-}
-.certificate {
-    padding: 60px 20px;
-    max-width: 800px;
-    margin: auto;
-    text-align: center;
-    color: #1CBF5F;
-}
-.cert {
-  background-color: #04AA6D; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 8px;
-  font-weight: bold;
-  transition: transform 0.3s ease;
-  animation: floatIn 0.6s ease-in forwards;
-  opacity: 0;
-}
-
-
